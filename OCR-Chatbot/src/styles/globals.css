@@ -1,0 +1,431 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+
+/* Custom Design Tokens for Glassmorphism and Modern UI */
+@theme {
+  /* Color Palette - Dark Mode (default) */
+  --color-bg-primary: #0a0a0f;
+  --color-bg-secondary: #13131a;
+  --color-bg-tertiary: #1a1a24;
+  
+  --color-text-primary: #f5f5f7;
+  --color-text-secondary: #b4b4b8;
+  --color-text-muted: #6e6e73;
+  
+  --color-accent-purple-start: #a855f7;
+  --color-accent-purple-mid: #9333ea;
+  --color-accent-purple-end: #7e22ce;
+  
+  --color-accent-teal-start: #2dd4bf;
+  --color-accent-teal-mid: #14b8a6;
+  --color-accent-teal-end: #0d9488;
+  
+  --color-accent-blue-start: #60a5fa;
+  --color-accent-blue-mid: #3b82f6;
+  --color-accent-blue-end: #2563eb;
+  
+  --color-glass-light: rgba(255, 255, 255, 0.05);
+  --color-glass-medium: rgba(255, 255, 255, 0.1);
+  --color-glass-heavy: rgba(255, 255, 255, 0.15);
+  
+  --color-border-subtle: rgba(255, 255, 255, 0.1);
+  --color-border-medium: rgba(255, 255, 255, 0.2);
+  
+  --color-error-bg: rgba(239, 68, 68, 0.1);
+  --color-error-border: #ef4444;
+  --color-error-text: #fca5a5;
+  
+  /* Glassmorphism Utilities */
+  --backdrop-blur-sm: 4px;
+  --backdrop-blur-md: 8px;
+  --backdrop-blur-lg: 12px;
+  --backdrop-blur-xl: 16px;
+  --backdrop-blur-2xl: 24px;
+  
+  /* Animation Durations */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  
+  /* Z-Index Layers */
+  --z-base: 0;
+  --z-dropdown: 10;
+  --z-sticky: 15;
+  --z-modal: 20;
+  --z-popover: 25;
+  --z-tooltip: 30;
+}
+
+/* Light Mode Override */
+.light {
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f5f5f7;
+  --color-bg-tertiary: #e5e5ea;
+  
+  --color-text-primary: #1d1d1f;
+  --color-text-secondary: #6e6e73;
+  --color-text-muted: #b4b4b8;
+  
+  --color-accent-purple-start: #9333ea;
+  --color-accent-purple-mid: #7e22ce;
+  --color-accent-purple-end: #6b21a8;
+  
+  --color-accent-teal-start: #14b8a6;
+  --color-accent-teal-mid: #0d9488;
+  --color-accent-teal-end: #0f766e;
+  
+  --color-accent-blue-start: #3b82f6;
+  --color-accent-blue-mid: #2563eb;
+  --color-accent-blue-end: #1d4ed8;
+  
+  --color-glass-light: rgba(0, 0, 0, 0.05);
+  --color-glass-medium: rgba(0, 0, 0, 0.1);
+  --color-glass-heavy: rgba(0, 0, 0, 0.15);
+  
+  --color-border-subtle: rgba(0, 0, 0, 0.1);
+  --color-border-medium: rgba(0, 0, 0, 0.2);
+  
+  --color-error-bg: rgba(239, 68, 68, 0.1);
+  --color-error-border: #dc2626;
+  --color-error-text: #991b1b;
+}
+
+/* Base Styles */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'Inter Variable', system-ui, -apple-system, sans-serif;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  transition: background-color var(--duration-normal) ease-in-out,
+              color var(--duration-normal) ease-in-out;
+}
+
+/* Smooth transitions for theme color changes */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 500ms;
+  transition-timing-function: ease-in-out;
+}
+
+/* Prevent transition on initial page load */
+.no-transition * {
+  transition: none !important;
+}
+
+/* Glassmorphism Utility Classes */
+.glass-light {
+  background-color: var(--color-glass-light);
+  backdrop-filter: blur(var(--backdrop-blur-md));
+  -webkit-backdrop-filter: blur(var(--backdrop-blur-md));
+}
+
+.glass-medium {
+  background-color: var(--color-glass-medium);
+  backdrop-filter: blur(var(--backdrop-blur-lg));
+  -webkit-backdrop-filter: blur(var(--backdrop-blur-lg));
+}
+
+.glass-heavy {
+  background-color: var(--color-glass-heavy);
+  backdrop-filter: blur(var(--backdrop-blur-xl));
+  -webkit-backdrop-filter: blur(var(--backdrop-blur-xl));
+}
+
+/* Fallback for browsers without backdrop-filter support */
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-light {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .glass-medium {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+  
+  .glass-heavy {
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+  
+  .light .glass-light {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  
+  .light .glass-medium {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  
+  .light .glass-heavy {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Gradient Utilities */
+.gradient-purple-blue {
+  background: linear-gradient(135deg, var(--color-accent-purple-start), var(--color-accent-blue-end));
+}
+
+.gradient-teal-blue {
+  background: linear-gradient(135deg, var(--color-accent-teal-start), var(--color-accent-blue-mid));
+}
+
+.gradient-purple-teal {
+  background: linear-gradient(135deg, var(--color-accent-purple-mid), var(--color-accent-teal-mid));
+}
+
+/* Smooth Scrolling */
+* {
+  scroll-behavior: smooth;
+}
+
+/* Performance Optimizations */
+/* Use GPU acceleration for transforms and opacity */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+/* Apply will-change sparingly - only during active animations */
+.animating {
+  will-change: transform, opacity;
+}
+
+/* Remove will-change after animation completes */
+.animation-complete {
+  will-change: auto;
+}
+
+/* Optimize scrolling performance */
+.optimized-scroll {
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+    will-change: auto !important;
+  }
+}
+
+/* Custom Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-glass-medium);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-glass-heavy);
+}
+
+/* Cursor Pointer for Clickable Elements */
+button,
+a,
+[role="button"],
+[role="link"],
+[tabindex="0"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+select,
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Disabled elements should not have pointer cursor */
+button:disabled,
+[disabled] {
+  cursor: not-allowed;
+}
+
+/* Focus Visible Styles for Accessibility */
+*:focus-visible {
+  outline: 2px solid var(--color-accent-purple-mid);
+  outline-offset: 2px;
+}
+
+/* Enhanced focus indicators for buttons and interactive elements */
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible,
+[role="link"]:focus-visible {
+  outline: 2px solid var(--color-accent-purple-mid);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.2);
+}
+
+/* Input focus indicators */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-accent-purple-mid);
+  outline-offset: 0px;
+  box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.2);
+}
+
+/* Ensure focus indicators are always visible, even with reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *:focus-visible,
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid var(--color-accent-purple-mid) !important;
+    outline-offset: 2px !important;
+  }
+}
+
+/* Animated Gradient Background */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-animated {
+  background: linear-gradient(
+    135deg,
+    var(--color-accent-purple-start),
+    var(--color-accent-teal-mid),
+    var(--color-accent-blue-mid),
+    var(--color-accent-purple-end)
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease-in-out infinite;
+}
+
+.gradient-static {
+  background: linear-gradient(
+    135deg,
+    var(--color-accent-purple-start),
+    var(--color-accent-teal-mid),
+    var(--color-accent-blue-mid),
+    var(--color-accent-purple-end)
+  );
+  background-size: 400% 400%;
+}
+
+/* Ensure gradient respects reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .gradient-animated {
+    animation: none;
+  }
+}
+
+/* Mobile Optimization and Responsive Design */
+/* Ensure all touch targets are at least 44x44px on mobile */
+@media (max-width: 768px) {
+  /* Touch target minimum size */
+  button,
+  a,
+  [role="button"],
+  [role="link"],
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Smaller touch targets for icon-only buttons in specific contexts */
+  .touch-target-small {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Windows High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  /* Ensure borders are visible in high contrast mode */
+  .glass-light,
+  .glass-medium,
+  .glass-heavy {
+    border: 2px solid currentColor;
+  }
+
+  /* Ensure buttons have visible borders */
+  button,
+  [role="button"] {
+    border: 2px solid currentColor;
+  }
+
+  /* Ensure focus indicators are extra visible */
+  *:focus-visible {
+    outline: 3px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  /* Ensure text has sufficient contrast */
+  * {
+    background-color: transparent !important;
+    color: inherit !important;
+  }
+
+  /* Preserve gradient backgrounds as solid colors */
+  .gradient-purple-blue,
+  .gradient-teal-blue,
+  .gradient-purple-teal {
+    background: currentColor !important;
+  }
+}
+
+/* Screen Reader Only Utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.sr-only:focus,
+.sr-only:active {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* Not screen reader only - for skip links */
+.focus\:not-sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
